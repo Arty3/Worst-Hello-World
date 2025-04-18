@@ -9,7 +9,7 @@
 ## How to:
 ### Clone:
 ```sh
-git clone https://github.com/DontCallMeLuca/WorstHelloWorld.git
+git clone https://github.com/Arty3/WorstHelloWorld.git
 cd WorstHelloWorld
 ```
 
