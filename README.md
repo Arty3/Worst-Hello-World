@@ -1,4 +1,4 @@
-<h1 align="center">✨ The Worst Hello World ✨</h1>
+<h1 align="center">✨ Worst Hello World ✨</h1>
 
 <h6 align="center"><em>Like, literally the worst hello world you've ever seen Scoob!</em></h6>
 
@@ -9,8 +9,8 @@
 ## How to:
 ### Clone:
 ```sh
-git clone https://github.com/Arty3/WorstHelloWorld.git
-cd WorstHelloWorld
+git clone https://github.com/Arty3/Worst-Hello-World.git
+cd Worst-Hello-World
 ```
 
 ### Compile:
