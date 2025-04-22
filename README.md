@@ -1,4 +1,4 @@
-<h1 align="center">🔥 The Worst Hello World 🔥</h1>
+<h1 align="center">✨ The Worst Hello World ✨</h1>
 
 <h6 align="center"><em>Like, literally the worst hello world you've ever seen Scoob!</em></h6>
 
