@@ -1,32 +1,24 @@
+#if !defined(__clang__)
+#error "Compile with clang >:("
+#endif
 #ifdef __cplusplus
-typedef unsigned long	pthread_t;
+typedef unsigned long pthread_t;
 extern "C" {
 #endif
-
 #if !defined(__x86_64__) || __SIZEOF_POINTER__ != 8
-# error "x86_64 Architecture required"
-#endif
-
-#if !defined(__clang__)
-# error "Compile with clang >:("
-#endif
-
-#if !defined(__GNUC__)
-# error "GNUC Required"
+#error "x86_64 Architecture required"
 #endif
 
 #ifndef _SSIZE_T
-# define _SSIZE_T
+#define _SSIZE_T
 typedef __typeof__(long signed int) ssize_t;
 #endif
-
 #ifndef _SIZE_T
-# define _SIZE_T
+#define _SIZE_T
 typedef __typeof__(sizeof(int)) size_t;
 #endif
-
 #ifndef _UINTPTR_T
-# define _UINTPTR_T
+#define _UINTPTR_T
 typedef __typeof__(sizeof(int)) uintptr_t;
 #endif
 
@@ -115,7 +107,6 @@ struct __pthread
 #if !defined(__EXIT_SUCCESS)
 # define	__EXIT_SUCCESS	0
 #endif
-
 #if !defined(__EXIT_FAILURE)
 # define	__EXIT_FAILURE	1
 #endif
@@ -125,7 +116,8 @@ typedef struct __pthread * pthread_t;
 #endif
 
 #ifdef TLS_ABOVE_TP
-#define __pthread_self() ((pthread_t)(__get_tp() - sizeof(struct __pthread) - TP_OFFSET))
+#define __pthread_self() ((pthread_t)(__get_tp() \
+	- sizeof(struct __pthread) - TP_OFFSET))
 #else
 #define __pthread_self() ((pthread_t)__get_tp())
 #endif
@@ -160,11 +152,10 @@ static HIDDEN __always_inline long	__syscall3(
 }
 
 #if !defined(__NR_write)
-# define __NR_write	1
+#define __NR_write	1
 #endif
-
 #ifndef CHAR_BIT
-# define CHAR_BIT	8
+#define CHAR_BIT	8
 #endif
 
 HIDDEN __attribute__((const)) static size_t	__bufsize(const char *__restrict__ s)
@@ -199,9 +190,13 @@ HIDDEN __attribute__((const)) static size_t	__bufsize(const char *__restrict__ s
 
 __weak_alias(__bufsize, __BUFSIZE);
 
-static HIDDEN ssize_t	__write_impl(int __fd, const void *__restrict__ __buf, size_t __size)
+static HIDDEN ssize_t	__write_impl(
+	int __fd, const void *__restrict__ __buf, size_t __size
+)
 {
-	return ((ssize_t)__syscall3(__NR_write, __fd, (long)__buf, (long)__size));
+	return ((ssize_t)__syscall3(
+		__NR_write, __fd, (long)__buf, (long)__size)
+	);
 }
 
 __weak_alias(__write_impl, write);
@@ -220,19 +215,19 @@ HIDDEN static void	*__memcpy_impl(
 
 	for (; (uintptr_t)s % 4 && n; --n) *d++ = *s++;
 
-	typedef unsigned int __attribute__((__may_alias__)) ui32;
+	typedef unsigned int __attribute__((__may_alias__)) _ui32;
 
 	if ((uintptr_t)d % 4 == 0)
 	{
 		if (n & 8)
 		{
-			*(ui32 *)(d + 0) = *(ui32 *)(s + 0);
-			*(ui32 *)(d + 4) = *(ui32 *)(s + 4);
+			*(_ui32 *)(d + 0) = *(_ui32 *)(s + 0);
+			*(_ui32 *)(d + 4) = *(_ui32 *)(s + 4);
 			d += 8; s += 8;
 		}
 		if (n & 4)
 		{
-			*(ui32 *)(d + 0) = *(ui32 *)(s + 0);
+			*(_ui32 *)(d + 0) = *(_ui32 *)(s + 0);
 			d += 4; s += 4;
 		}
 		if (n & 2)
@@ -242,18 +237,18 @@ HIDDEN static void	*__memcpy_impl(
 		}
 		if (n & 1)
 			*d = *s;
-		return dst;
+		return (dst);
 	}
 	for (; n; --n)
 		*d++ = *s++;
-	return dst;
+	return (dst);
 }
 
 __weak_alias(__memcpy_impl, memcpy);
 
 int	main(const int argc, char **argv, char *envp[])
 {
-	(void)argc; (void)argv; (void)envp;
+	(void)(signed long)argc; (void)(unsigned char***)argv; (void)(void)envp;
 
 	__attribute__((aligned(16)))
 	const char _RAW[14] = {
